@@ -41,7 +41,7 @@ class _BaseScreenState extends State<BaseScreen> {
             //Animação de troca de page
             pageController.animateToPage(
               index,
-              duration: Duration(milliseconds: 700),
+              duration: const Duration(milliseconds: 700),
               curve: Curves.easeInOutCirc,
             );
           });

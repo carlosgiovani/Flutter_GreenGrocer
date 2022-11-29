@@ -2,9 +2,9 @@ import 'package:add_to_cart_animation/add_to_cart_animation.dart';
 import 'package:add_to_cart_animation/add_to_cart_icon.dart';
 import 'package:badges/badges.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/pages/commons_widgets/app_name_widget.dart';
+import 'package:greengrocer/src/pages/commons_widgets/custom_shimmer.dart';
 import 'package:greengrocer/src/pages/home/components/category_tile.dart';
 import 'package:greengrocer/src/config/app_data.dart' as appData;
 import 'package:greengrocer/src/pages/home/components/item_tile.dart';
@@ -26,6 +26,17 @@ class _HomeTapState extends State<HomeTap> {
   }
 
   final UtilsServices utilsServices = UtilsServices();
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(const Duration(seconds: 2), () {
+      setState(() {
+        isLoading = false;
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -136,22 +147,40 @@ class _HomeTapState extends State<HomeTap> {
 
               //Grid
               Expanded(
-                child: GridView.builder(
-                  padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
-                  physics: const BouncingScrollPhysics(),
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 10,
-                    childAspectRatio: 9 / 11.5,
-                  ),
-                  itemCount: appData.items.length,
-                  itemBuilder: (_, index) {
-                    return ItemTile(
-                        item: appData.items[index],
-                        cartAnimationMethod: itemSelectedCartAnimations);
-                  },
-                ),
+                child: !isLoading
+                    ? GridView.builder(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                        physics: const BouncingScrollPhysics(),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10,
+                          childAspectRatio: 9 / 11.5,
+                        ),
+                        itemCount: appData.items.length,
+                        itemBuilder: (_, index) {
+                          return ItemTile(
+                              item: appData.items[index],
+                              cartAnimationMethod: itemSelectedCartAnimations);
+                        },
+                      )
+                    : GridView.count(
+                        padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
+                        physics: const BouncingScrollPhysics(),
+                        crossAxisCount: 2,
+                        mainAxisSpacing: 10,
+                        crossAxisSpacing: 10,
+                        childAspectRatio: 9 / 11.5,
+                        children: List.generate(
+                          10,
+                          (index) => CustomShimmer(
+                            height: double.infinity,
+                            width: double.infinity,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                        ),
+                      ),
               )
             ],
           ),
