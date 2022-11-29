@@ -30,7 +30,6 @@ class _HomeTapState extends State<HomeTap> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     Future.delayed(const Duration(seconds: 2), () {
       setState(() {
