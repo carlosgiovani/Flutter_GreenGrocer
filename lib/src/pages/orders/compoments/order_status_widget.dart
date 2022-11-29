@@ -135,7 +135,7 @@ class _StatusDot extends StatelessWidget {
         Expanded(
           child: Text(
             title,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
             ),
           ),
