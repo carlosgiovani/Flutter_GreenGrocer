@@ -14,6 +14,12 @@ class AuthController extends GetxController {
 
   UserModel user = UserModel();
 
+  // @override
+  // void onInit() {
+  //   super.onInit();
+  //   validateToken();
+  // }
+
   Future<void> validateToken() async {
     //Recupera o token que foi salvo localmente
     String? token = await utilsServices.getLocalData(key: StorageKeys.token);
@@ -24,12 +30,15 @@ class AuthController extends GetxController {
     }
 
     AuthResult result = await authRepository.validateToken(token);
+
     result.when(
       success: (user) {
         this.user = user;
         saveTokenAndProceedToBase();
       },
-      error: (message) {},
+      error: (message) {
+        signOut();
+      },
     );
   }
 
@@ -55,7 +64,8 @@ class AuthController extends GetxController {
     result.when(
       success: (user) {
         this.user = user;
-        Get.offAllNamed(PagesRoutes.baseRoute);
+
+        saveTokenAndProceedToBase();
       },
       error: (message) {
         utilsServices.showToast(
