@@ -6,7 +6,6 @@ import 'package:get/get.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/pages/commons_widgets/app_name_widget.dart';
 import 'package:greengrocer/src/pages/commons_widgets/custom_shimmer.dart';
-import 'package:greengrocer/src/config/app_data.dart' as appData;
 import 'package:greengrocer/src/pages/home/controller/home_controller.dart';
 import 'package:greengrocer/src/pages/home/view/components/category_tile.dart';
 import 'package:greengrocer/src/pages/home/view/components/item_tile.dart';
@@ -148,7 +147,7 @@ class _HomeTapState extends State<HomeTap> {
               GetBuilder<HomeController>(
                 builder: (controller) {
                   return Expanded(
-                    child: !controller.isLoading
+                    child: !controller.isProductLoading
                         ? GridView.builder(
                             padding: const EdgeInsets.fromLTRB(0, 16, 0, 16),
                             physics: const BouncingScrollPhysics(),
@@ -159,12 +158,18 @@ class _HomeTapState extends State<HomeTap> {
                               crossAxisSpacing: 10,
                               childAspectRatio: 9 / 11.5,
                             ),
-                            itemCount: appData.items.length,
+                            itemCount: controller.allProducts.length,
                             itemBuilder: (_, index) {
+                              if (((index + 1) ==
+                                      controller.allProducts.length) &&
+                                  !controller.isLastPage) {
+                                controller.loadMoreProducts();
+                              }
+
                               return ItemTile(
-                                  item: appData.items[index],
-                                  cartAnimationMethod:
-                                      itemSelectedCartAnimations);
+                                item: controller.allProducts[index],
+                                cartAnimationMethod: itemSelectedCartAnimations,
+                              );
                             },
                           )
                         : GridView.count(
