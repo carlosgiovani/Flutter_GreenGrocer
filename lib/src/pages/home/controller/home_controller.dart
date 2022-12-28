@@ -16,6 +16,9 @@ class HomeController extends GetxController {
   List<CategoryModel> allCategories = [];
   CategoryModel? currentCategory;
 
+  //campo de pesquisa
+  RxString searchTitle = ''.obs;
+
   //Caso seja null o retorno, e setado vasio []
   List<ItemModel> get allProducts => currentCategory?.items ?? [];
 
@@ -39,7 +42,55 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    //fica observando a variavel para veririficar seu valor
+    debounce(
+      searchTitle,
+      (_) {
+        filterByTitle();
+      },
+      time: const Duration(milliseconds: 600),
+    );
     getAllCategories();
+  }
+
+  // buscar produtos campo de pesquisa
+  void filterByTitle() {
+    //apagar todas os produtos das categorias ja carregados p/ a pesquisa nao ficar separada
+    for (var category in allCategories) {
+      category.items.clear();
+      category.pagination = 0;
+    }
+
+    //verifica se o campo de pesquisa esta vazio o foi limpo
+    if (searchTitle.value.isEmpty) {
+      //remove a nova categoria todos q foi criada na pesquisa
+      allCategories.removeAt(0);
+    } else {
+      //Verifica se a categoria todos ja existe
+      CategoryModel? c = allCategories.firstWhereOrNull((cat) => cat.id == '');
+
+      if (c == null) {
+        //Criar nova categoria "Todos" para receber resultado da pesquisa
+        final allProductsCategory = CategoryModel(
+          pagination: 0,
+          items: [],
+          title: 'Todos',
+          id: '',
+        );
+        //inserir nova categoria, o 0 e a posição
+        allCategories.insert(0, allProductsCategory);
+      } else {
+        c.items.clear();
+        c.pagination = 0;
+      }
+    }
+
+    //deixa a nova categoria selecionada
+    currentCategory = allCategories.first;
+
+    update();
+    getAllProducts();
   }
 
   //categoria selecionada
@@ -97,6 +148,16 @@ class HomeController extends GetxController {
       'categoryId': currentCategory!.id,
       'itemsPerPage': itemsPerPage,
     };
+
+    //Verifica se foi feito uma pesquisa
+    if (searchTitle.value.isNotEmpty) {
+      //passa novo valor para title  q esta no body
+      body['title'] = searchTitle.value;
+
+      if (currentCategory!.id == '') {
+        body.remove('categoryId');
+      }
+    }
 
     HomeResult<ItemModel> result = await homeRepository.getAllProducts(body);
 
