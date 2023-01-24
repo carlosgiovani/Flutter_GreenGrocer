@@ -3,16 +3,16 @@ import 'package:get/get.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/models/item_model.dart';
 import 'package:greengrocer/src/pages/base/controller/navigation_controller.dart';
+import 'package:greengrocer/src/pages/cart/controller/cart_controller.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
 import '../commons_widgets/quantity_widget.dart';
 
 class ProductScreen extends StatefulWidget {
-  final ItemModel item;
+  final ItemModel item = Get.arguments;
 
-  const ProductScreen({
+  ProductScreen({
     Key? key,
-    required this.item,
   }) : super(key: key);
 
   @override
@@ -25,6 +25,8 @@ class _ProductScreenState extends State<ProductScreen> {
   int cartItemQuantity = 1;
 
   final navigationController = Get.find<NavigationController>();
+
+  final cartController = Get.find<CartController>();
 
   @override
   Widget build(BuildContext context) {
@@ -114,6 +116,12 @@ class _ProductScreenState extends State<ProductScreen> {
                           onPressed: () {
                             //fechar tela
                             Get.back();
+
+                            //Adiciona produto ao carrinho
+                            cartController.addItemToCart(
+                              item: widget.item,
+                              quantity: cartItemQuantity,
+                            );
 
                             //chamar tela carrinho
                             navigationController

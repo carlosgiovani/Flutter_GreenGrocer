@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:greengrocer/src/config/custom_colors.dart';
 import 'package:greengrocer/src/models/cart_item_model.dart';
 import 'package:greengrocer/src/pages/cart/components/cart_tile.dart';
+import 'package:greengrocer/src/pages/cart/controller/cart_controller.dart';
 import 'package:greengrocer/src/pages/orders/compoments/payment_dialog.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 import 'package:greengrocer/src/config/app_data.dart' as appData;
@@ -15,18 +17,11 @@ class CartTab extends StatefulWidget {
 
 class _CartTabState extends State<CartTab> {
   final UtilsServices utilsServices = UtilsServices();
-
-  void removeItemFromCart(CartItemModel cartItem) {
-    setState(() {
-      appData.cartItems.remove(cartItem);
-      utilsServices.showToast(
-          message: '${cartItem.item.itemName} removido(a) com sucesso.');
-    });
-  }
+  List<CartItemModel> cartItems = [];
 
   double cartTotalPrice() {
     double total = 0;
-    for (var item in appData.cartItems) {
+    for (var item in cartItems) {
       total += item.totalPrice();
     }
     return total;
@@ -41,12 +36,31 @@ class _CartTabState extends State<CartTab> {
       body: Column(
         children: [
           Expanded(
-            child: ListView.builder(
-              itemCount: appData.cartItems.length,
-              itemBuilder: (_, index) {
-                return CartTile(
-                  cartItem: appData.cartItems[index],
-                  remove: removeItemFromCart,
+            child: GetBuilder<CartController>(
+              builder: (controller) {
+                if (controller.cartItems.isEmpty) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.remove_shopping_cart,
+                        size: 45,
+                        color: CustomColors.customSwatchColor,
+                      ),
+                      const Text(
+                        'Não há itens no seu carrinho.',
+                      )
+                    ],
+                  );
+                }
+
+                return ListView.builder(
+                  itemCount: controller.cartItems.length,
+                  itemBuilder: (_, index) {
+                    return CartTile(
+                      cartItem: controller.cartItems[index],
+                    );
+                  },
                 );
               },
             ),
@@ -79,13 +93,19 @@ class _CartTabState extends State<CartTab> {
                     fontSize: 12,
                   ),
                 ),
-                Text(
-                  utilsServices.priceToCurrency(cartTotalPrice()),
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                    color: CustomColors.customSwatchColor,
-                  ),
+                //Mostra o valor total do pedido
+                GetBuilder<CartController>(
+                  builder: (controller) {
+                    return Text(
+                      utilsServices
+                          .priceToCurrency(controller.cartTotalPrice()),
+                      style: TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.bold,
+                        color: CustomColors.customSwatchColor,
+                      ),
+                    );
+                  },
                 ),
                 const SizedBox(
                   height: 17,
