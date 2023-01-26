@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -46,5 +49,12 @@ class UtilsServices {
       textColor: isError ? Colors.white : Colors.grey,
       fontSize: 14.0,
     );
+  }
+
+  // Converter QRCode em uma string
+  Uint8List decodeQrCodeImage(String value) {
+    //split identifica onde tem a virgula e com o last pega o que estiver depois
+    String base64String = value.split(',').last;
+    return base64.decode(base64String);
   }
 }

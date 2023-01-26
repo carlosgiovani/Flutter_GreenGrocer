@@ -120,6 +120,7 @@ List<OrderModel> orders = [
     status: 'pending_payment',
     total: 11.0,
     items: [],
+    qrCodeImage: '',
   ),
 
   // Pedido 02
@@ -135,5 +136,6 @@ List<OrderModel> orders = [
     status: 'delivered',
     total: 11.5,
     items: [],
+    qrCodeImage: '',
   ),
 ];
