@@ -8,6 +8,9 @@ part 'order_model.g.dart';
 @JsonSerializable()
 class OrderModel {
   String id;
+
+  //no back o nome e createdAt
+  @JsonKey(name: 'createdAt')
   DateTime? createDateTime;
 
   //nome q vem do back e due converter overdueDateTime
@@ -16,12 +19,16 @@ class OrderModel {
 
   @JsonKey(defaultValue: [])
   List<CartItemModel> items;
+
   String status;
   String qrCodeImage;
 
   //nome q vem do back e due, converter copyAndPaste
   @JsonKey(name: 'copiaecola')
   String copyAndPaste;
+
+  //verificar se o pagamento esta vencido pela data
+  bool get isOverDue => overdueDateTime.isBefore(DateTime.now());
 
   double total;
   OrderModel({

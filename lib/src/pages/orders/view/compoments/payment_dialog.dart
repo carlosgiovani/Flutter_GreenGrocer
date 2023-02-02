@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:greengrocer/src/models/order_model.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
+// ignore: must_be_immutable
 class PaymentDialog extends StatelessWidget {
   final OrderModel order;
 

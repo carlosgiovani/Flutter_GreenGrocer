@@ -5,6 +5,7 @@ import 'package:greengrocer/src/pages/base/base_screen.dart';
 import 'package:greengrocer/src/pages/base/binding/navigation_binding.dart';
 import 'package:greengrocer/src/pages/cart/binding/cart_binding.dart';
 import 'package:greengrocer/src/pages/home/binding/home_binding.dart';
+import 'package:greengrocer/src/pages/orders/binding/orders_binding.dart';
 import 'package:greengrocer/src/pages/products/product_screen.dart';
 import 'package:greengrocer/src/pages/splash/splash_screen.dart';
 
@@ -34,6 +35,7 @@ abstract class AppPages {
         NavigationBinding(),
         HomeBinding(),
         CartBinding(),
+        OrdersBinding(),
       ],
     ),
   ];

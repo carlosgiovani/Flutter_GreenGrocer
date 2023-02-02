@@ -6,7 +6,7 @@ import 'package:greengrocer/src/models/order_model.dart';
 import 'package:greengrocer/src/pages/auth/controller/auth_controller.dart';
 import 'package:greengrocer/src/pages/cart/cart_result/cart_result.dart';
 import 'package:greengrocer/src/pages/cart/repository/cart_repository.dart';
-import 'package:greengrocer/src/pages/orders/compoments/payment_dialog.dart';
+import 'package:greengrocer/src/pages/orders/view/compoments/payment_dialog.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
 class CartController extends GetxController {

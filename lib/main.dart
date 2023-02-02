@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:greengrocer/src/pages/auth/controller/auth_controller.dart';
 import 'package:greengrocer/src/pages_routes/app_pages.dart';
@@ -8,6 +9,9 @@ void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
   Get.put(AuthController());
+
+  //Questoes de acessibilidade
+  RendererBinding.instance.setSemanticsEnabled(true);
   runApp(const MyApp());
 }
 
