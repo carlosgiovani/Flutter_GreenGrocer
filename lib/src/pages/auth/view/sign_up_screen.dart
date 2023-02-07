@@ -114,7 +114,7 @@ class SignUpScreen extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(18),
                                   ),
                                 ),
-                                onPressed: authController.isLoding.value
+                                onPressed: authController.isLoading.value
                                     ? null
                                     : () {
                                         //FocusScope fecha o teclado
@@ -124,7 +124,7 @@ class SignUpScreen extends StatelessWidget {
                                           authController.signUp();
                                         }
                                       },
-                                child: authController.isLoding.value
+                                child: authController.isLoading.value
                                     ? const CircularProgressIndicator()
                                     : const Text(
                                         'Cadastrar usuário',

@@ -26,7 +26,11 @@ class AllOrdersController extends GetxController {
 
     result.when(
       success: (orders) {
-        allOrders = orders;
+        // .. ordenacao em cascata
+        allOrders = orders
+          ..sort(
+            (a, b) => b.createDateTime!.compareTo(a.createDateTime!),
+          );
         update();
       },
       error: (message) {
