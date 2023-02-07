@@ -7,7 +7,7 @@ import 'package:greengrocer/src/pages_routes/app_pages.dart';
 import 'package:greengrocer/src/services/utils_service.dart';
 
 class AuthController extends GetxController {
-  RxBool isLoding = false.obs;
+  RxBool isLoading = false.obs;
 
   final authRepository = AuthRepository();
   final utilsServices = UtilsServices();
@@ -51,10 +51,10 @@ class AuthController extends GetxController {
   }
 
   Future<void> signUp() async {
-    isLoding.value = true;
+    isLoading.value = true;
     AuthResult result = await authRepository.signUp(user);
 
-    isLoding.value = false;
+    isLoading.value = false;
 
     result.when(
       success: (user) {
@@ -70,6 +70,35 @@ class AuthController extends GetxController {
     );
   }
 
+  Future<void> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    isLoading.value = true;
+
+    final result = await authRepository.changePassword(
+      email: user.email!,
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      token: user.token!,
+    );
+
+    isLoading.value = false;
+
+    if (result) {
+      utilsServices.showToast(
+        message: 'A senha foi atualizada com sucesso!',
+      );
+
+      signOut();
+    } else {
+      utilsServices.showToast(
+        message: 'A senha atual está incorreta',
+        isError: true,
+      );
+    }
+  }
+
   Future<void> resetPassword(String email) async {
     await authRepository.resetPassword(email);
   }
@@ -78,12 +107,12 @@ class AuthController extends GetxController {
     required String email,
     required String password,
   }) async {
-    isLoding.value = true;
+    isLoading.value = true;
 
     AuthResult result =
         await authRepository.signIn(email: email, password: password);
 
-    isLoding.value = false;
+    isLoading.value = false;
 
     result.when(
       success: (user) {

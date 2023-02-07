@@ -9,7 +9,7 @@ class OrderStatusWidget extends StatelessWidget {
     'pending_payment': 0,
     'refunded': 1,
     'paid': 2,
-    'preparing_purchese': 3,
+    'preparing_purchase': 3,
     'shipping': 4,
     'delivered': 5,
   };

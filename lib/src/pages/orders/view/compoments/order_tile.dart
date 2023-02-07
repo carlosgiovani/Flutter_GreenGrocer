@@ -91,9 +91,8 @@ class OrderTile extends StatelessWidget {
                               flex: 2,
                               child: OrderStatusWidget(
                                 status: order.status,
-                                isOverdue: order.overdueDateTime.isBefore(
-                                  DateTime.now(),
-                                ),
+                                isOverdue: order.overdueDateTime
+                                    .isBefore(DateTime.now()),
                               ),
                             ),
                           ],
