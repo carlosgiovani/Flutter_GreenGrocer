@@ -3,6 +3,7 @@ import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:greengrocer/src/pages/auth/controller/auth_controller.dart';
 import 'package:greengrocer/src/pages_routes/app_pages.dart';
+import 'package:flutter/services.dart';
 
 void main() {
   //inicializar todos os plugins necessários
@@ -13,6 +14,14 @@ void main() {
   //Questoes de acessibilidade
   RendererBinding.instance.setSemanticsEnabled(true);
   runApp(const MyApp());
+
+  // Aqui definimos apenas o modo retrato, fazendo com que todo nosso app fique
+  //apenas nessa orientação, evitando o overflow
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]).then((_) {
+    runApp(const MyApp());
+  });
 }
 
 class MyApp extends StatelessWidget {
