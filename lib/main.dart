@@ -12,7 +12,7 @@ void main() {
   Get.put(AuthController());
 
   //Questoes de acessibilidade
-  RendererBinding.instance.setSemanticsEnabled(true);
+  RendererBinding.instance.ensureSemantics();
   runApp(const MyApp());
 
   // Aqui definimos apenas o modo retrato, fazendo com que todo nosso app fique

@@ -116,7 +116,7 @@ class _CartTabState extends State<CartTab> {
                     builder: (controller) {
                       return ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                          primary: CustomColors.customSwatchColor,
+                          backgroundColor: CustomColors.customSwatchColor,
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(18),
                           ),

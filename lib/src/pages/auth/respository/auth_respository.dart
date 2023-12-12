@@ -61,7 +61,7 @@ class AuthRepository {
         'password': password,
       },
     );
-
+    // se retornar o result não tem erro
     return handleUserOrError(result);
   }
 

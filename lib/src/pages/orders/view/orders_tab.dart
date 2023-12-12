@@ -4,7 +4,8 @@ import 'package:greengrocer/src/pages/orders/controller/all_orders_controller.da
 import '../view/compoments/order_tile.dart';
 
 class OrdersTab extends StatelessWidget {
-  const OrdersTab({Key? key}) : super(key: key);
+  OrdersTab({Key? key}) : super(key: key);
+  final allOrdersController = AllOrdersController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +14,9 @@ class OrdersTab extends StatelessWidget {
         title: const Text('Pedidos'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              allOrdersController.getAllOrders();
+            },
             icon: const Icon(Icons.refresh),
           ),
         ],
